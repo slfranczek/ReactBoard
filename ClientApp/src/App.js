@@ -1,22 +1,42 @@
-import React, { Component } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import AppRoutes from './AppRoutes';
-import { Layout } from './components/Layout';
-import './custom.css';
+import React from 'react';
+import { Routes, Route, Link, useParams } from 'react-router-dom'; // Import BrowserRouter and useParams
+import Board from './components/Board/Board';
 
-export default class App extends Component {
-  static displayName = App.name;
-
-  render() {
-    return (
-      <Layout>
-        <Routes>
-          {AppRoutes.map((route, index) => {
-            const { element, ...rest } = route;
-            return <Route key={index} {...rest} element={element} />;
-          })}
-        </Routes>
-      </Layout>
-    );
-  }
+function App() {
+  return (
+    <div className="App">
+      <h1>Hello, React!</h1>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/boards/3">3x3 Board</Link>
+          </li>
+          <li>
+            <Link to="/boards/4">4x4 Board</Link>
+          </li>
+          <li>
+            <Link to="/boards/5">5x5 Board</Link>
+          </li>
+        </ul>
+      </nav>
+      <Routes>
+        {/* Define routes for different board sizes */}
+        <Route path="/boards/:size" element={<BoardPage />} />
+      </Routes>
+    </div>
+  );
 }
+
+
+function BoardPage() {
+  const { size } = useParams();
+  console.log(size); // Added for verification
+  return (
+    <div>
+      <h2>Board Page Rendered</h2> {/* Added for verification */}
+      <Board size={parseInt(size)} />
+    </div>
+  );
+}
+
+export default App;
